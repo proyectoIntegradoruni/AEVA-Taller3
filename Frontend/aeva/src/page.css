@@ -7,6 +7,45 @@
     
   }
 
+  .InicioP {
+    background-image: url('../public/fondo2.gif');
+    background-size: cover;
+    height: 100vh;
+    
+    
+  }
+
+  .ContenidoP{
+    display: flex;
+    flex-direction: column;
+    margin-top: -1030px; /* Ajusta el margen superior según sea necesario */
+    margin-left: -660px;
+    color: rgb(97, 218, 251);
+  }
+
+  .ContenidoP h2{
+    font-size: 132px;
+    margin-left: 200px;
+    margin-bottom: 20px;
+  }
+
+  .ContenidoP h3{
+    font-size: 64px;
+    margin-left: 200px;
+  }
+
+  .Superior{
+    display: flex;
+    font-size: 36px;
+  }
+
+  .Superior h3 {
+    font-size: 32px; /* Ajusta el tamaño de la fuente según sea necesario */
+    padding-left: 16px;
+    margin: 0 32px; /* Ajusta el margen según sea necesario */
+}
+  
+
   .Inicio-arriba {
     display: flex;
     justify-content: space-between;
@@ -14,6 +53,8 @@
     color: azure;
     
   }
+
+
 
   .Inicio-arriba p {
     font-weight: bold; /* Para hacer el texto en negrita */
