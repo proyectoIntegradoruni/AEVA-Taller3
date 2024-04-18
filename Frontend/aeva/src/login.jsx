@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 //import Webcam from "react-webcam"; // Importa el componente de cámara
 import "./styles.css";
+import Cards from "./component/Tarjetas";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ function Login() {
                 <div className=  "login-form-btn-menu-superior">  <p>Sign up</p></div>
                 <div className=  "login-form-btn-menu-superior">    <p>Otro</p></div>
                 
-               
+
                
               
             </div>

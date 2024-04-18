@@ -9,12 +9,12 @@ function Card({ imageSource, title, text, url }) {
       <div className="overflow2">
         <img src={imageSource} alt="a wallpaper" className="card-img-top" />
         <div className="card-body text-light">
-        <h4 className="card-title">{title}</h4>
+        { /*<h4 className="card-title">{title}</h4>
         <p className="card-text text-secondary">
           {text
             ? text
             : "FELIZ"}
-        </p>
+          </p>*/}
         
       </div>
       </div>
