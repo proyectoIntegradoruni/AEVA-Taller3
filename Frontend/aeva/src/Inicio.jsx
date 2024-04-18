@@ -15,7 +15,9 @@ function Inicio() {
                 <p>Otro</p>
             </div>
         </header>
-        <div className='Contenido'>
+        
+        <div className='Contenido'> <div className="App">
+    </div>
             <h1 className='Titulo'>AEVA</h1> 
             <h3 className='Descripcion'>Analizador de Emociones Visuales </h3> 
             <h3 className='Conten'>Con AEVA podras reconocer las emociones<br></br>
