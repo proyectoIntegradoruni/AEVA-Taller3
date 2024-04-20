@@ -7,7 +7,7 @@ import Registro from "./registro";
 import Inicio from "./Inicio";
 import Principal from "./principal";
 import App2 from "./cards";
-import Historial from "./historial";
+import Historial from "./component/historial";
 import Home from "./interfazcamara"
 export const AppRouter = () => {
   return (

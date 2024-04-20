@@ -2,11 +2,12 @@ import React, { useState } from "react";
 
 import {FaUserAlt, FaBars} from "react-icons/fa"
 import { NavLink } from "react-router-dom";
-import Cards from "./Tarjetas";
+
 import "./sidebar.css"
 const Sidebar = ({children}) => {
-  const[isOpen ,setIsOpen] = useState(true)
-    const toggle = () => setIsOpen (!isOpen);
+  const [isOpen, setIsOpen] = useState(true);
+  const toggle = () => setIsOpen(!isOpen);
+  
   const menuItem = [
     {
       path: "/nn",
@@ -29,12 +30,12 @@ const Sidebar = ({children}) => {
       <div style={{width: isOpen ? "300px" : "90px"}} className="sidebar">
         <div className="top_section">
           <h1 style={{display: isOpen ? "block" : "none"}} className="logo">  
-          <img src="" alt="imagen" style={{ width: '700%', height: '700%'}} />  
+          <img src={"/logo.png"} alt="imagen" style={{ width: '5vw', height: '10vh', marginLeft: '10px' }} />
+
            </h1>
           <div style={{marginLeft: isOpen ? "50px" : "0px"}} className="bars">
             <FaBars onClick={toggle}/>
-          </div> 
-        
+          </div>  
         </div>
         {
             menuItem.map((item,index) => (
@@ -46,9 +47,7 @@ const Sidebar = ({children}) => {
             ))
           }
       </div>
-      
       <main>{children} </main>
-     
     </div>
   );
 }
