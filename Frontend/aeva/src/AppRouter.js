@@ -8,6 +8,7 @@ import Inicio from "./Inicio";
 import Principal from "./principal";
 import App2 from "./cards";
 import Historial from "./historial";
+import Home from "./interfazcamara"
 export const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -17,7 +18,7 @@ export const AppRouter = () => {
         <Route path="/registro" element={<Registro />} />   
         <Route path="/home" element={<Principal/>} />
         <Route path="/history" element={<Historial/>} />   
-      
+        <Route path="/camara" element={<Home/>} />   
 
       </Routes>
     </BrowserRouter>

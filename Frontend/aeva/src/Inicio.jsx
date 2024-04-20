@@ -6,7 +6,12 @@ function Inicio() {
       <div className="Inicio">
         <header className="Inicio-arriba">
             <div className="superior-izquierdo">
-                <p>AEVA</p>
+            <div style={{ display: 'flex', alignItems: 'center',right: '30px' }}>
+                    
+                    <img src={"/logo.png"} alt="Placeholder" style={{ width: '5vw', height: '10vh', marginLeft: '10px' }} />
+                    <p>AEVA</p>
+                </div>
+
             </div>
             
             <div className="Superior-derecho">
