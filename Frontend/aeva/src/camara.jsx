@@ -8,6 +8,7 @@ import { BsFillCameraVideoOffFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
 import { LuVideoOff } from "react-icons/lu";
 import { FaDownload } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const videoConstraints = {
     width: window.innerWidth,
@@ -17,14 +18,25 @@ const videoConstraints = {
 
 export const WebcamCapture = () => {
     const [image, setImage] = useState('');
-    const [isCameraActive, setIsCameraActive] = useState(true);
+    const navigate = useNavigate();
+    const handleRegreso = (e) => {
+      e.preventDefault();
+      navigate('/home');
+    };
+    const [isCameraActive, setIsCameraActive] = useState(false);
     const webcamRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const [capturing, setCapturing] = useState(false);
     const [recordedChunks, setRecordedChunks] = useState([]);
+    const [capturedImages, setCapturedImages] = useState([]);
+    const [imageCaptureIntervalId, setImageCaptureIntervalId] = useState(null);
+    const [capture, setTome] = useState(false);
 
     const handleStartCaptureClick = useCallback(() => {
         setCapturing(true);
+       
+    
+        // Iniciar la grabación de video
         mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
             mimeType: "video/webm"
         });
@@ -32,7 +44,17 @@ export const WebcamCapture = () => {
             "dataavailable",
             handleDataAvailable
         );
+        
         mediaRecorderRef.current.start();
+       
+        // Capturar imágenes cada 3 segundos
+        const imageCaptureInterval = setInterval(() => {
+            const imageSrc = webcamRef.current.getScreenshot({ screenshotFormat: 'image/jpeg' });
+            setCapturedImages(prevImages => [...prevImages, imageSrc]);
+        }, 3000);
+    
+            setImageCaptureIntervalId(imageCaptureInterval);
+       
     }, [webcamRef, setCapturing, mediaRecorderRef]);
 
     const handleDataAvailable = useCallback(
@@ -48,8 +70,11 @@ export const WebcamCapture = () => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
             setCapturing(false);
+            clearInterval(imageCaptureIntervalId); // Limpiar el intervalo de captura de imágenes
+            setCapturedImages([]); // Limpiar las imágenes capturadas
         }
-    }, [mediaRecorderRef, setCapturing]);
+    }, [mediaRecorderRef, setCapturing, imageCaptureIntervalId]);
+    
     
 
     const handleDownload = useCallback(() => {
@@ -71,6 +96,10 @@ export const WebcamCapture = () => {
 
     const toggleCamera = useCallback(() => {
         setIsCameraActive((prev) => !prev);
+        if (!isCameraActive) {
+            clearInterval(imageCaptureIntervalId); // Limpiar el intervalo de captura de imágenes
+            setCapturedImages([]); // Limpiar las imágenes capturadas
+        }
     }, []);
 
     return (
@@ -97,7 +126,7 @@ export const WebcamCapture = () => {
                         right: '30px'
                     }}
                 >
-                    <GoArrowRight
+                    <GoArrowRight onClick={handleRegreso}
                         style={{
                             color: '#000000',
                             fontSize: '30px'
@@ -151,6 +180,12 @@ export const WebcamCapture = () => {
 
 
             </div>
+            <div>
+        {capturedImages.map((image, index) => (
+            <img key={index} src={image} alt={`Captured Image ${index}`} />
+        ))}
+    </div>
+
         </div>
     );
 };

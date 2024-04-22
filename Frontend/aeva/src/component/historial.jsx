@@ -8,25 +8,26 @@ import {FaUserAlt, FaBars} from "react-icons/fa"
 import { NavLink } from "react-router-dom";
 import Cards from "./Tarjetas";
 import "./sidebar.css"
+import { BiVideoRecording } from "react-icons/bi";
+import { MdPeopleAlt } from "react-icons/md";
+
 const Historial= ({children}) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   
   const menuItem = [
+   
     {
-      path: "/nn",
-      name: "Emocion a buscar",
-      icon:<FaUserAlt/>
-    },
-    {
-      path: "/aeva",
+      path: "/camara",
       name: "Reconocer Emociones",
-      icon:<FaUserAlt/>
+      icon:<BiVideoRecording />
+
     },
     {
       path: "/history",
       name: "Historial de emociones",
-      icon:<FaUserAlt/>
+      icon:<MdPeopleAlt />
+
     }
   ]
   return (
@@ -50,6 +51,8 @@ const Historial= ({children}) => {
       } 
     </div>
     <div style={{ width: isOpen ? "calc(100% - 300px)" : "calc(100% - 90px)" }} className="top_sectionp">
+    <h3 style={{ fontSize: '40px', color: '#88DFF2' }}>Historial de Emociones</h3>
+
       <Cards/>
     </div>
   </div>
