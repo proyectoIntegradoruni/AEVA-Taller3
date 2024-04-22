@@ -1,4 +1,7 @@
 import './page.css'
+import Cards from "./component/Tarjetas";
+
+import './page.css'
 
 function Inicio() {
     return (
