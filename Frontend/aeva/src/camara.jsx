@@ -41,7 +41,14 @@ export const WebcamCapture = () => {
                 setRecordedChunks((prev) => prev.concat(data));
             }
         },
-        [setRecordedChunks]
+        [setRecordedChunks],
+        ({ data }) => {
+            if (data.size > 0) {
+                const imageUrl = URL.createObjectURL(data);
+                setImage(imageUrl);
+            }
+        },
+        [setImage]
     );
 
     const handleStopCaptureClick = useCallback(() => {

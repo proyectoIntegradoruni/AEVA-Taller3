@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb+srv://rivaslina:qEqHkwUUMrtaG61u@taller1.7ujjqcr.mongodb.net/TallerI?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 
+#Peticion a inicio de sesion
 @app.route('/login', methods=['POST'])
 def login():
     # Obtener datos de inicio de sesión del cuerpo de la solicitud
@@ -39,12 +40,18 @@ def get_all_collections():
         return jsonify(collections), 200
     else:
         return jsonify({'error': 'No se encontraron colecciones'}), 404
-    
+
+
+ '''
+ Peticion a Coleccion
+ '''   
 @app.route('/collections', methods=['GET'])
 def get_collections():
     return get_all_collections()
 
-
+'''
+Peticion a la IA, de reconocimiento facial
+'''
 @app.route('/login/rostro', methods=['POST'])
 def login():
     # Obtener datos de inicio de sesión del cuerpo de la solicitud
