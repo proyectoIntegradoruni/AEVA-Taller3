@@ -1,9 +1,21 @@
 import './page.css'
 import Cards from "./component/Tarjetas";
-
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './page.css'
 
 function Inicio() {
+
+  const navigate = useNavigate();
+  const handleRegistro = (e) => {
+    e.preventDefault();
+    navigate('/registro');
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate('/login');
+  };
     return (
       <div className="Inicio">
         <header className="Inicio-arriba">
@@ -11,11 +23,18 @@ function Inicio() {
                 <p>AEVA</p>
             </div>
             
-            <div className="Superior-derecho">
-                <p>Home</p>
-                <p>Sign in</p>
-                <p>Sign up</p>
-                <p>Otro</p>
+            <div className="Superior-derecho"  style={{ textAlign: 'center',padding: '10hv' }} >
+               
+            <form className="login-form" onSubmit={handleLogin}>
+           
+            <button className="login-form-btn" type="submit">Sign in</button>
+          </form>
+
+          <form className="login-form" onSubmit={handleRegistro}>
+          <button className="login-form-btn" type="submit">Sign up</button>
+           
+            </form>
+               
             </div>
         </header>
         <div className='Contenido'>
