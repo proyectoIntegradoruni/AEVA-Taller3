@@ -60,6 +60,7 @@ function Registro() {
         <div className="wrap-login">
           <form className="login-form" onSubmit={handleRegistro}>
             <span className="login-form-titl"> Registro </span>
+          
 
             <span className="login-form-title">
              

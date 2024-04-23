@@ -12,6 +12,28 @@ function Login() {
     e.preventDefault();
     navigate('/registro');
   };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('https://tarea-2.onrender.com/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+  
+      const data = await response.json();        
+  
+      navigate('/home');
+      
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Ocurrió un error al iniciar sesión. Por favor, intenta de nuevo más tarde.');
+    }
+  };
   return (
     <div className="Inicio">
       <header className="Inicio-arriba">
@@ -37,7 +59,7 @@ function Login() {
 
       <div className='Contenido'>
         <div className="wrap-login">
-          <form className="login-form">
+          <form className="login-form" onSubmit={handleLogin}> {/* Aquí se agrega onSubmit al formulario */}
             <span className="login-form-titl"> Sing in </span>
 
             <div className="wrap-input">
@@ -64,23 +86,16 @@ function Login() {
               />
             </div>
 
-            {/* Aquí se integra el componente de cámara 
-            <div className="webcam-container">
-             
-            </div> */}
-
             <div className="container-login-form-btn">
               <button className="login-form-btn" type="submit">Login</button>
             </div>
             <div className="text-center">
               <span className="txt1">No tienes cuenta? </span>
               <a className="txt2" href="/registro" onClick={handleRegistro}>
-               Crear cuenta
+                Crear cuenta
               </a>
             </div>
-
           </form>
-          
         </div>
       </div>
     </div>
