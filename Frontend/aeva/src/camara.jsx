@@ -10,6 +10,8 @@ import { LuVideoOff } from "react-icons/lu";
 import { FaDownload } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useSpeechSynthesis } from 'react-speech-kit';
+
 
 
 const videoConstraints = {
@@ -33,7 +35,13 @@ export const WebcamCapture = () => {
     const [recordedChunks, setRecordedChunks] = useState([]);
     const [capturedImages, setCapturedImages] = useState([]);
     const [imageCaptureIntervalId, setImageCaptureIntervalId] = useState(null);
-    const [capture, setTome] = useState(false);
+    const [responseText, setResponseText] = useState('');
+    
+    const { speak } = useSpeechSynthesis();
+
+    const handleSpeech = (text) => {
+        speak({ text });
+      };
     
 
     const handleStartCaptureClick = useCallback(() => {
@@ -55,6 +63,7 @@ export const WebcamCapture = () => {
         const imageCaptureInterval = setInterval(() => {
             const imageSrc = webcamRef.current.getScreenshot({ screenshotFormat: 'image/jpeg' });
 
+            
             // Enviar la imagen al backend de Django
             const dataToSend = {
                 nombre: 'Ejemplo',
@@ -67,15 +76,20 @@ export const WebcamCapture = () => {
             axios.post(url, dataToSend)
             .then(response => {
                 console.log(response.data);
+                const responseData = response.data;
+                setResponseText(responseData); // Actualiza el estado con el texto de la respuesta
+                handleSpeech(responseData); // Habla el texto de la respuesta
+                
                 // Maneja la respuesta de la vista de Django aquí
             })
             .catch(error => {
                 console.error('Error al enviar la solicitud:', error);
+                handleSpeech("No se pudo detectar la emocion")
             });
             
             setCapturedImages(prevImages => [...prevImages, imageSrc]);
 
-        }, 3000);
+        }, 6000);
     
             setImageCaptureIntervalId(imageCaptureInterval);
        
@@ -213,9 +227,7 @@ export const WebcamCapture = () => {
 
             </div>
             <div>
-        {capturedImages.map((image, index) => (
-            <img key={index} src={image} alt={`Captured Image ${index}`} />
-        ))}
+
     </div>
 
         </div>

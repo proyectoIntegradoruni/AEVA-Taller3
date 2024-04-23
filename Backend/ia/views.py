@@ -6,16 +6,24 @@ def mi_vista(request):
 
 # Create your views here.'''
 
-from django.http import JsonResponse
-from rest_framework.response import Response
+'''from django.http import JsonResponse
 from rest_framework.decorators import api_view
 import json
 
 import cv2
 import face_recognition
 from deepface import DeepFace
+import base64'''
 
-
+import face_recognition
+from deepface import DeepFace
+import base64
+from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+import json
+import numpy as np
+import cv2
 
 @api_view(['POST'])
 def mi_vista(request):
@@ -30,15 +38,20 @@ def mi_vista(request):
         edad = datos_recibidos.get('edad')
         foto = datos_recibidos.get('foto')
 
-        # Decodificar la imagen base64 y guardarla como archivo
-        with open('imagen.jpg', 'wb') as file:
-            file.write(foto.decode('base64'))
+        # Obtener los datos base64
+        base64_data = foto.split(",")[1]
 
-        original_image = cv2.imread('./imagen.jpg')
+        # Decodificar los datos base64 en una matriz numpy
+        decoded_data = base64.b64decode(base64_data)
 
-        # Convertir la imagen a RGB para face_recognition
-        rgb_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+        # Convertir los datos decodificados a una matriz numpy
+        nparr = np.frombuffer(decoded_data, np.uint8)
 
+        # Decodificar la matriz numpy en una imagen
+        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+        # Convertir la imagen de BGR a RGB (face_recognition requiere imágenes en formato RGB)
+        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         # Detectar rostros en la imagen usando face_recognition
         face_locations = face_recognition.face_locations(rgb_image)
 
@@ -55,7 +68,7 @@ def mi_vista(request):
             left = max(0, left - extra_margin)
             
             # Recortar la región del rostro de la imagen original
-            face_image = original_image[top:bottom, left:right]
+            face_image = image[top:bottom, left:right]
             
             # Guardar la imagen del rostro recortado
             cv2.imwrite('rostro_recortado.jpg', face_image)
@@ -65,28 +78,30 @@ def mi_vista(request):
             
             # Imprimir el resultado de la emoción
             emotions = result[0]['emotion']
+            resultadoo = max(emotions, key=emotions.get)
             print("Emotions:", result)
-            gano = max(emotions, key=emotions.get)
-            '''# Dibujar un rectángulo alrededor del rostro
-            cv2.rectangle(original_image, (left, top), (right, bottom), (0, 255, 0), 2)
+            '''
+            # Dibujar un rectángulo alrededor del rostro
+            cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
             
             # Mostrar la emoción detectada
-            cv2.putText(original_image, max(emotions, key=emotions.get), (left, top-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            cv2.putText(image, max(emotions, key=emotions.get), (left, top-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
             # Mostrar la imagen con los rostros y las emociones detectadas
-            cv2.imshow("Face Detection with Emotion Recognition", original_image)
+            cv2.imshow("Face Detection with Emotion Recognition", image)
             cv2.waitKey(0)
-            cv2.destroyAllWindows() '''  
-            return JsonResponse({'mensaje': gano})
+            cv2.destroyAllWindows()   '''
+            
         else:
             print("No se detectaron rostros en la imagen.")
-            return JsonResponse({'error': 'No se detectaron rostros en la imagen '}, status=400)
+            mensaje = "No se detectaron rostros en la imagen."
+            return JsonResponse({'mensaje': mensaje})
+
         print(nombre, edad, datos_recibidos)
         # Realiza alguna operación con los datos
-        mensaje = f"Hola, {nombre}. Tienes {edad} años."
-
+        mensaje = f"La emocion detectada es {resultadoo}"
 
         # Devuelve una respuesta HTTP en formato JSON
-        
+        return JsonResponse({'mensaje': mensaje})
     else:
-        return JsonResponse({'error': 'Esta vista solo acepta solicitudes POST. '}, status=405)
+        return JsonResponse({'error': 'Esta vista solo acepta solicitudes POST.'}, status=405)
