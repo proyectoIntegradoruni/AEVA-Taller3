@@ -46,17 +46,36 @@ export const WebcamCapture = () => {
         );
         
         mediaRecorderRef.current.start();
-       
+        
         // Capturar imágenes cada 3 segundos
         const imageCaptureInterval = setInterval(() => {
             const imageSrc = webcamRef.current.getScreenshot({ screenshotFormat: 'image/jpeg' });
             setCapturedImages(prevImages => [...prevImages, imageSrc]);
+
+            // Datos que quieres enviar al backend
+            const dataToSend = {
+                nombre: 'Ejemplo',
+                edad: 25,
+            };
+
+            // Configuración de la solicitud
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
+            };
+
+            fetch('http://localhost:8000/api/face_r/', requestOptions)
+            .then(response => response.json())
+            .then(response_data => console.log(response_data))
+            .catch(error => console.error('Error:', error));
         }, 3000);
     
             setImageCaptureIntervalId(imageCaptureInterval);
        
     }, [webcamRef, setCapturing, mediaRecorderRef]);
 
+    
     const handleDataAvailable = useCallback(
         ({ data }) => {
             if (data.size > 0) {
